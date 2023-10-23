@@ -1,2 +1,6 @@
-package dao;public class LibroDAO {
+package dao;
+
+import model.Libro;
+
+public abstract interface LibroDAO extends CRUD<Libro> {
 }
