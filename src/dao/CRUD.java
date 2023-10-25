@@ -4,6 +4,7 @@ import model.Libro;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CRUD<T> {
@@ -11,7 +12,7 @@ public interface CRUD<T> {
 
     void readLibri();
 
-    void updateLibro(String isbn);
+    void updateLibro() throws SQLException;
 
     void delete(String isbn);
 

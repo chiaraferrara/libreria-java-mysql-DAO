@@ -2,16 +2,17 @@ import dao.ConcreteLibroDAO;
 import datasource.ConnectionDBH;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
     private static datasource.ConnectionDBH ConnectionDBH;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         boolean exit = false;
         int scelta;
         ConnectionDBH connectionDBH = new ConnectionDBH();
-        ConcreteLibroDAO concreteLibroDAO = new ConcreteLibroDAO(ConnectionDBH);
+        ConcreteLibroDAO concreteLibroDAO = new ConcreteLibroDAO(connectionDBH);
         while (exit == false) {
             System.out.print("-----------------------------" +
                     "\nCosa vorresti fare?\n" +
@@ -33,6 +34,7 @@ public class Main {
                     concreteLibroDAO.readLibri();
                     break;
                 case 3:
+                    concreteLibroDAO.updateLibro();
                     break;
                 case 4:
                     break;
