@@ -16,3 +16,5 @@ dalla classe ho utilizzato database MySQL
 CRUD (Create, Read, Update, Delete)<br>
 database MySQL <br>
 DAO (Data Access Object).
+
+<img src="https://raw.githubusercontent.com/chiaraferrara/libreria-java-mysql-DAO/master/src/screenshot/screenshot_libreria.png">
