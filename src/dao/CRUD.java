@@ -3,12 +3,13 @@ package dao;
 import model.Libro;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.List;
 
 public interface CRUD<T> {
     void add(Libro item) throws IOException;
 
-    List<T> readLibri();
+    void readLibri();
 
     void updateLibro(String isbn);
 
