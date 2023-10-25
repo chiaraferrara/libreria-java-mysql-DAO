@@ -9,3 +9,8 @@ leggere la lista di libri contenuti nel database.
 
 Per lo storage dei dati rappresentati
 dalla classe ho utilizzato database MySQL
+
+
+CRUD (Create, Read, Update, Delete)
+database MySQL 
+DAO (Data Access Object).
