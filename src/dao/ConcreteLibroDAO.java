@@ -1,47 +1,47 @@
 package dao;
+
 import datasource.ConnectionDBH;
 import model.Libro;
 import java.io.*;
 import java.sql.*;
 import java.util.*;
 
-//I Prepared Statement (letteralmente “dichiarazioni preparate”) sono modelli già pronti all'uso per
-// le interrogazioni nei sistemi di database in SQL, che non contengono valori per i singoli parametri.
-public class ConcreteLibroDAO implements LibroDAO{
-
+public class ConcreteLibroDAO implements LibroDAO {
     private final ConnectionDBH connection_db;
 
     public ConcreteLibroDAO(ConnectionDBH connectionDBH) {
-        //IMPORTANTE, avevo errore : crea istanza ConnectionDBH!
-        this.connection_db = new ConnectionDBH();
+        this.connection_db = connectionDBH;
     }
 
-    public void add() throws IOException {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Inserisci le info del libro:\n");
-        System.out.print("ISBN: ");
-        String isbn = scanner.nextLine();
-        System.out.print("Titolo: ");
-        String titolo = scanner.nextLine();
-        System.out.print("Autore: ");
-        String autore = scanner.nextLine();
-//la query è una isttuzione SQL che in questo caso aggiunge libro alla table -> ? , ? , ? specifichiamo i valori da inserire con dei segnaposto (?)
-        String query = "INSERT INTO libro (isbn, titolo, autore) VALUES (?, ?, ?)";
+    public void add() {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            System.out.print("Inserisci le info del libro:\n");
+            System.out.print("ISBN: ");
+            String isbn = scanner.nextLine();
+            System.out.print("Titolo: ");
+            String titolo = scanner.nextLine();
+            System.out.print("Autore: ");
+            String autore = scanner.nextLine();
+            String query = "INSERT INTO libro (isbn, titolo, autore) VALUES (?, ?, ?)";
 
-        try (Connection connection = connection_db.getConnectData();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, isbn);
-            preparedStatement.setString(2, titolo);
-            preparedStatement.setString(3, autore);
+            try (Connection connection = connection_db.getConnectData();
+                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, isbn);
+                preparedStatement.setString(2, titolo);
+                preparedStatement.setString(3, autore);
 
-            int rowsInserted = preparedStatement.executeUpdate();
-            if (rowsInserted > 0) {
-                System.out.println("Libro inserito con successo.");
-            } else {
-                System.out.println("Nessun libro inserito.");
+                int rowsInserted = preparedStatement.executeUpdate();
+                if (rowsInserted > 0) {
+                    System.out.println("Libro inserito con successo.");
+                } else {
+                    System.out.println("Nessun libro inserito.");
+                }
+            } catch (SQLException e) {
+                System.out.println("Errore durante l'inserimento del libro: " + e.getMessage());
             }
-        } catch (SQLException e) {
-            System.out.println("Errore durante l'inserimento del libro: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Errore: " + e.getMessage());
         }
     }
 
@@ -107,7 +107,7 @@ public class ConcreteLibroDAO implements LibroDAO{
         }
 
         //qui avviene la scelta del campo da modificare...
-        System.out.println("Quale campo vuoi modificare?" +
+        System.out.println("Quale campo vuoi modificare?\n" +
                 "1) Titolo\n" +
                 "2) Autore\n" +
                 "3) Annulla");
@@ -126,6 +126,7 @@ public class ConcreteLibroDAO implements LibroDAO{
                     Connection connection = connection_db.getConnectData();
                     PreparedStatement preparedStatement = connection.prepareStatement(query1)){
                     preparedStatement.setString(1, nuovoTitolo);
+                    preparedStatement.setString(2, isbn);
             //metodo viene utilizzato per eseguire un'operazione di aggiornamento dei dati EXECUTE UPDATE
                     int colonnaAggiornata = preparedStatement.executeUpdate();
                     if(colonnaAggiornata>0){
@@ -151,6 +152,7 @@ public class ConcreteLibroDAO implements LibroDAO{
                         Connection connection = connection_db.getConnectData();
                         PreparedStatement preparedStatement = connection.prepareStatement(query2)){
                     preparedStatement.setString(1, nuovoAutore);
+                    preparedStatement.setString(2, isbn); //java.sql.SQLException: No value specified for parameter 2 non devo dimenticare questo campo...
                     //metodo viene utilizzato per eseguire un'operazione di aggiornamento dei dati EXECUTE UPDATE
                     int colonnaAggiornata = preparedStatement.executeUpdate();
                     if(colonnaAggiornata>0){
@@ -170,7 +172,32 @@ public class ConcreteLibroDAO implements LibroDAO{
     }
 
 
-    public void delete(String isbn) {
+    public void delete() throws SQLException {
+        System.out.println("Quale libro vuoi rimuovere? Inserisci isbn:\n");
+        Scanner i = new Scanner(System.in);
+        String isbn2 = i.nextLine();
+        String query = "DELETE FROM `libro` WHERE isbn = ?";
+        try(
+                Connection connection = connection_db.getConnectData();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1,isbn2);
+            System.out.println("Confermi che vuoi eliminare il libro? Si/No");
+            Scanner s = new Scanner(System.in);
+            String scelta = s.nextLine();
+            //non utilizzo == ma equals
+            if(scelta.equals("Sì") || scelta.equals("Si")  || scelta.equals("sì")  || scelta.equals("si") ){
+                int campiEliminati =preparedStatement.executeUpdate();
+                if(campiEliminati>0){
+                    System.out.println("Campo eliminato");
+                }else {
+                    System.out.println("E' stato impossibile eliminare il libro. Ritenta.");
+                }
+            } else{
+                System.out.println("Hai annullato l'eliminazione.");
+            }
+            }
+
+
 
     }
 }

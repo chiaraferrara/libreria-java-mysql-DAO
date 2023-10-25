@@ -19,7 +19,7 @@ public class Main {
                     "1) Aggiungi libro\n" +
                     "2) Visualizza Libri\n" +
                     "3) Modifica Libro\n" +
-                    "4) Rimuovi Libro" +
+                    "4) Rimuovi Libro\n" +
                     "5) Esci \n\n" +
                     "Inserisci il numero della tua scelta.\n" +
                     "-----------------------------\n");
@@ -37,6 +37,7 @@ public class Main {
                     concreteLibroDAO.updateLibro();
                     break;
                 case 4:
+                    concreteLibroDAO.delete();
                     break;
                 case 5:
                     exit = true;

@@ -14,6 +14,6 @@ public interface CRUD<T> {
 
     void updateLibro() throws SQLException;
 
-    void delete(String isbn);
+    void delete() throws SQLException;
 
 }

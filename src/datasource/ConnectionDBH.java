@@ -23,7 +23,16 @@ public class ConnectionDBH {
     }
 
     public Connection getConnectData() {
-
+        String url = "jdbc:mysql://localhost:3306/mysql";
+        String username = "root";
+        String password = "";
+        Connection connectData = null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connectData = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return connectData;
     }
 }
