@@ -9,18 +9,6 @@ import java.sql.*;
 
 public class ConnectionDBH {
     private Connection connectData;
-    public ConnectionDBH(){
-        String url = "jdbc:mysql://localhost:3306/mysql";
-        String username = "root";
-        String password = "";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connectData = DriverManager.getConnection(url, username, password);
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 
     public Connection getConnectData() {
         String url = "jdbc:mysql://localhost:3306/mysql";
