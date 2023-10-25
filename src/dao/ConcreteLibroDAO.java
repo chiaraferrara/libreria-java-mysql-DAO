@@ -1,28 +1,56 @@
 package dao;
-
 import datasource.ConnectionDBH;
 import model.Libro;
-
-import java.io.IOException;
+import java.io.*;
 import java.sql.*;
+import java.util.*;
 
+//I Prepared Statement (letteralmente “dichiarazioni preparate”) sono modelli già pronti all'uso per
+// le interrogazioni nei sistemi di database in SQL, che non contengono valori per i singoli parametri.
 public class ConcreteLibroDAO implements LibroDAO{
 
     private final ConnectionDBH connection_db;
 
     public ConcreteLibroDAO(ConnectionDBH connectionDBH) {
-        this.connection_db = connectionDBH;
+        //IMPORTANTE, avevo errore : crea istanza ConnectionDBH!
+        this.connection_db = new ConnectionDBH();
     }
 
-    public void add(Libro item) throws IOException {
-        PreparedStatement preparedStatement = connection_db.getConnectData().prepareStatement("") //inserire qualcosa qui
+    public void add() throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Inserisci le info del libro:\n");
+        System.out.print("ISBN: ");
+        String isbn = scanner.nextLine();
+        System.out.print("Titolo: ");
+        String titolo = scanner.nextLine();
+        System.out.print("Autore: ");
+        String autore = scanner.nextLine();
+//la query è una isttuzione SQL che in questo caso aggiunge libro alla table -> ? , ? , ? specifichiamo i valori da inserire con dei segnaposto (?)
+        String query = "INSERT INTO libro (isbn, titolo, autore) VALUES (?, ?, ?)";
 
+        try (Connection connection = connection_db.getConnectData();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, isbn);
+            preparedStatement.setString(2, titolo);
+            preparedStatement.setString(3, autore);
+
+            int rowsInserted = preparedStatement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Libro inserito con successo.");
+            } else {
+                System.out.println("Nessun libro inserito.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Errore durante l'inserimento del libro: " + e.getMessage());
+        }
     }
+
+
 
 
     public void readLibri() {
 
-        String url = "jdbc:mysql://localhost:3306/libreria";
+        String url = "jdbc:mysql://localhost:3306/mysql";
         String username = "root";
         String password = "";
         try {

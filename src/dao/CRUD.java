@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 public interface CRUD<T> {
-    void add(Libro item) throws IOException;
+    void add() throws IOException;
 
     void readLibri();
 
