@@ -1,11 +1,11 @@
 import dao.ConcreteLibroDAO;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
+import datasource.ConnectionDBH;
 
 public class Main {
+    private static datasource.ConnectionDBH ConnectionDBH;
+
     public static void main(String[] args) {
-        ConcreteLibroDAO concreteLibroDAO = new ConcreteLibroDAO();
+        ConcreteLibroDAO concreteLibroDAO = new ConcreteLibroDAO(ConnectionDBH);
         concreteLibroDAO.readLibri();
 
     }
