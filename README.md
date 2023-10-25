@@ -1,5 +1,7 @@
-# libreria
+# Operazioni CRUD con MySQL e il Modello DAO
+<br>
 
+Consegna: <br>
 Implementare in Java un DAO (Data Access
 Object). Il programma deve consentire all’utente di
 creare un Libro (con un nome, codiceIsbn, autore),
@@ -11,6 +13,6 @@ Per lo storage dei dati rappresentati
 dalla classe ho utilizzato database MySQL
 
 
-CRUD (Create, Read, Update, Delete)
-database MySQL 
+CRUD (Create, Read, Update, Delete)<br>
+database MySQL <br>
 DAO (Data Access Object).
